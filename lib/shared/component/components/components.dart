@@ -35,28 +35,38 @@ Widget defaultFormFeild({
   required TextInputType type,
   Function? onSubmit,
   Function? onChanged,
+  Function? suffixPressed,
   required Function? validate,
   required String? label,
   required String? hint,
   required IconData? prefix,
   IconData? sufix,
+  bool isPassword = false,
 }) =>
     TextFormField(
+      obscureText: isPassword,
       controller: controller,
-      onChanged: ((value) {
-        onChanged!(value);
+      onChanged: ((s) {
+        onChanged ?? (s);
       }),
-      onFieldSubmitted: (value) {
-        onSubmit!(value);
+      onFieldSubmitted: (s) {
+        onSubmit ?? (s);
       },
       keyboardType: type,
       validator: (s) {
-        validate!(s);
+        validate ?? (s);
         return null;
       },
       decoration: InputDecoration(
         prefixIcon: Icon(prefix),
-        suffixIcon: Icon(sufix),
+        suffixIcon: sufix != null
+            ? IconButton(
+                icon: const Icon(Icons.visibility),
+                onPressed: () {
+                  suffixPressed!();
+                },
+              )
+            : null,
         hintText: hint,
         labelText: label,
         border: const OutlineInputBorder(),

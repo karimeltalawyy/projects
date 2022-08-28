@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:test_one/layout/bmi/bmi_calculator.dart';
-import 'package:test_one/layout/counter/counter_screen.dart';
-import 'package:test_one/layout/login/login_screen.dart';
+import 'package:test_one/layout/home_layout.dart';
+import 'package:test_one/modules/bmi/bmi_calculator.dart';
+import 'package:test_one/modules/counter/counter_screen.dart';
+import 'package:test_one/modules/login/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +13,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: HomeLayout(),
     );
   }
 }

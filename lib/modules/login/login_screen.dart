@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:test_one/shared/component/components/components.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   var emailController = TextEditingController();
+
   var passwordController = TextEditingController();
+
   var formKey = GlobalKey<FormState>();
+  bool isPasswordShow = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +50,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     defaultFormFeild(
+                      isPassword: isPasswordShow,
                       controller: passwordController,
                       type: TextInputType.number,
                       validate: (String value) {
@@ -52,7 +61,14 @@ class LoginScreen extends StatelessWidget {
                       label: 'Password',
                       hint: 'Enter password',
                       prefix: Icons.lock,
-                      sufix: Icons.visibility,
+                      sufix: isPasswordShow
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      suffixPressed: () {
+                        setState(() {
+                          isPasswordShow = !isPasswordShow;
+                        });
+                      },
                     ),
                     const SizedBox(height: 16),
                     defaultButton(
@@ -79,7 +95,9 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         const Text('Don\'t have an account?'),
                         TextButton(
-                            onPressed: () {}, child: const Text('Sign up'))
+                          onPressed: () {},
+                          child: const Text('Sign up'),
+                        )
                       ],
                     ),
                   ],
