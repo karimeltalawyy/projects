@@ -35,13 +35,15 @@ Widget defaultFormFeild({
   required TextInputType type,
   Function? onSubmit,
   Function? onChanged,
+  Function? onTap,
   Function? suffixPressed,
-  required Function? validate,
+  required Function validate,
   required String? label,
   required String? hint,
   required IconData? prefix,
   IconData? sufix,
   bool isPassword = false,
+  bool isClickable = true,
 }) =>
     TextFormField(
       obscureText: isPassword,
@@ -49,14 +51,17 @@ Widget defaultFormFeild({
       onChanged: ((s) {
         onChanged ?? (s);
       }),
+      onTap: () {
+        onTap!();
+      },
       onFieldSubmitted: (s) {
         onSubmit ?? (s);
       },
       keyboardType: type,
       validator: (s) {
-        validate ?? (s);
-        return null;
+        validate(s);
       },
+      enabled: isClickable,
       decoration: InputDecoration(
         prefixIcon: Icon(prefix),
         suffixIcon: sufix != null
