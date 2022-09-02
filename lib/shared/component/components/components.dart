@@ -37,6 +37,7 @@ Widget defaultFormFeild({
   Function? onChanged,
   Function? onTap,
   Function? suffixPressed,
+  AutovalidateMode? autoValidate,
   required Function validate,
   required String? label,
   required String? hint,
@@ -46,6 +47,7 @@ Widget defaultFormFeild({
   bool isClickable = true,
 }) =>
     TextFormField(
+      autovalidateMode: autoValidate,
       obscureText: isPassword,
       controller: controller,
       onChanged: ((s) {
@@ -77,9 +79,34 @@ Widget defaultFormFeild({
         border: const OutlineInputBorder(),
       ),
     );
-// (String? value) {
-//         if (value!.isEmpty) {
-//           return 'Email conot be empty';
-//         }
-//         return null;
-//       },
+
+Widget buildTaskItem() => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            radius: 40,
+            child: Text('2:30 PM'),
+          ),
+          const SizedBox(width: 22),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Task title',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                '31 April 2022',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey[500],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
