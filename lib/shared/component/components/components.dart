@@ -80,26 +80,27 @@ Widget defaultFormFeild({
       ),
     );
 
-Widget buildTaskItem() => Padding(
+Widget buildTaskItem(Map model) => Padding(
       padding: const EdgeInsets.all(20.0),
       child: Row(
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 40,
-            child: Text('2:30 PM'),
+            child: Text('${model['time']}'),
           ),
           const SizedBox(width: 22),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Task title',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+              Text(
+                '${model['title']}',
+                style:
+                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
               ),
               const SizedBox(height: 4),
               Text(
-                '31 April 2022',
+                '${model['date']}',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[500],

@@ -9,7 +9,7 @@ class NewTaskScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemBuilder: (context, index) => buildTaskItem(),
+      itemBuilder: (context, index) => buildTaskItem(tasks[index]),
       separatorBuilder: (context, index) => Container(
         width: double.infinity,
         color: Colors.grey[300],

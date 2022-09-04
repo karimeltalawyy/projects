@@ -4,7 +4,7 @@ import 'package:test_one/modules/archived_tasks/archived_task.dart';
 import 'package:test_one/modules/done_tasks/done_task.dart';
 import 'package:test_one/modules/new_tasks/new_task.dart';
 import 'package:intl/intl.dart';
-
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import '../shared/component/components/components.dart';
 import '../shared/component/constants/constants.dart';
 
@@ -49,9 +49,11 @@ class _HomeLayoutState extends State<HomeLayout> {
       appBar: AppBar(
         title: Text(titles[currentIndex]),
       ),
-      body: tasks.length == 0
-          ? const Center(child: CircularProgressIndicator())
-          : screens[currentIndex],
+      body: ConditionalBuilder(
+        builder: (context) => screens[currentIndex],
+        condition: tasks.length > 0,
+        fallback: (context) => const Center(child: CircularProgressIndicator()),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (isBottomSheetShown) {
@@ -63,10 +65,14 @@ class _HomeLayoutState extends State<HomeLayout> {
                       time: timingController.text,
                       title: titleController.text)
                   .then((value) {
-                Navigator.pop(context);
-                isBottomSheetShown = false;
-                setState(() {
-                  fabIcon = Icons.edit;
+                getDataFromDatabase(database).then((value) {
+                  Navigator.pop(context);
+
+                  setState(() {
+                    tasks = value;
+                    fabIcon = Icons.edit;
+                    isBottomSheetShown = false;
+                  });
                 });
               });
             }
@@ -193,60 +199,57 @@ class _HomeLayoutState extends State<HomeLayout> {
       ),
     );
   }
-}
 
-Future<String> getName() async {
-  return 'Karim khaled';
-}
+  Future<String> getName() async {
+    return 'Karim khaled';
+  }
 
-void createDatabase() async {
-  database = await openDatabase(
-    'todo.db',
-    version: 1,
-    onCreate: (database, version) {
-      print('Database Created');
-      database
-          .execute(
-              'CREATE TABLE tasks(id INTEGER PRIMARY KEY NOT NULL, title TEXT, date TEXT, time TEXT, status TEXT)')
-          .then(
-        (value) {
-          print('Table created!');
-        },
-      ).catchError(
-        (error) {
-          print('Error when creadting table is ${error.toString()}');
-        },
-      );
-    },
-    onOpen: (database) {
-      getDataFromDatabase(database).then((value) {
-        tasks = value;
-      });
-      print('Database Opened');
-    },
-  );
-}
-
-Future insertToDatabase({
-  required String title,
-  required String time,
-  required String date,
-}) async {
-  return await database?.transaction((txn) async {
-    txn
-        .rawInsert(
-            'INSERT INTO tasks(title,date,time,status) VALUES ("$title","$time","$date","New")')
-        .then((value) {
-      print('$value Inserted Succcessfuly');
-    }).catchError(
-      (error) {
-        print('Error while inserting is ${error.toString()}');
+  void createDatabase() async {
+    database = await openDatabase(
+      'todo.db',
+      version: 1,
+      onCreate: (database, version) {
+        print('Database Created');
+        database
+            .execute(
+                'CREATE TABLE tasks(id INTEGER PRIMARY KEY NOT NULL, title TEXT, date TEXT, time TEXT, status TEXT)')
+            .then(
+          (value) {
+            print('Table created!');
+          },
+        ).catchError(
+          (error) {
+            print('Error when creadting table is ${error.toString()}');
+          },
+        );
+      },
+      onOpen: (database) {
+        print('Database Opened');
       },
     );
-    return null;
-  });
-}
+  }
 
-Future<List<Map>> getDataFromDatabase(database) async {
-  return await database!.rawQuery('SELECT * FROM tasks');
+  Future insertToDatabase({
+    required String title,
+    required String time,
+    required String date,
+  }) async {
+    return await database?.transaction((txn) async {
+      txn
+          .rawInsert(
+              'INSERT INTO tasks(title,date,time,status) VALUES ("$title","$date","$time","New")')
+          .then((value) {
+        print('$value Inserted Succcessfuly');
+      }).catchError(
+        (error) {
+          print('Error while inserting is ${error.toString()}');
+        },
+      );
+      return null;
+    });
+  }
+
+  Future<List<Map>> getDataFromDatabase(database) async {
+    return await database!.rawQuery('SELECT * FROM tasks');
+  }
 }
