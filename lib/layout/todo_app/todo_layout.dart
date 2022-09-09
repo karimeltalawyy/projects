@@ -3,9 +3,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:test_one/modules/archived_tasks/archived_task.dart';
 import 'package:test_one/modules/done_tasks/done_task.dart';
 import 'package:test_one/modules/new_tasks/new_task.dart';
-import 'package:path/path.dart';
 
-import '../shared/component/components/components.dart';
+import '../../shared/component/components/components.dart';
 
 class HomeLayout extends StatefulWidget {
   const HomeLayout({Key? key}) : super(key: key);

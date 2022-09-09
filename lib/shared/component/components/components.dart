@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 
 Widget defaultButton({
@@ -59,7 +60,7 @@ Widget defaultFormFeild({
       },
       keyboardType: type,
       validator: (s) {
-        validate(s);
+        return validate(s);
       },
       enabled: isClickable,
       decoration: InputDecoration(
@@ -77,9 +78,74 @@ Widget defaultFormFeild({
         border: const OutlineInputBorder(),
       ),
     );
-// (String? value) {
-//         if (value!.isEmpty) {
-//           return 'Email conot be empty';
-//         }
-//         return null;
-//       },
+
+Widget buildArticleItem(article,context) => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          Container(
+            height: 120,
+            width: 120,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadiusDirectional.circular(12),
+              // color: Colors.deepOrange,
+              image: DecorationImage(
+                image: NetworkImage(
+                  '${article['urlToImage']}',
+                ),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Container(
+              height: 120,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${article['title']}',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  Text(
+                    '${article['publishedAt']}',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+Widget buildMydivider() => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        color: Colors.grey[200],
+        height: 1,
+        width: double.infinity,
+      ),
+    );
+
+Widget articleBuilderItem(list,context) => ConditionalBuilder(
+      condition: list.length > 0,
+      builder: (context) => ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) => buildArticleItem(list[index],context),
+        separatorBuilder: (context, index) => buildMydivider(),
+        itemCount: 10,
+      ),
+      fallback: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
