@@ -179,3 +179,71 @@ Widget buildTaskItem(Map model, context) => Dismissible(
         AppCubit.get(context).deleteData(id: model['id']);
       },
     );
+
+Widget buildArticleItem(article, context) => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: [
+          Container(
+            height: 120,
+            width: 120,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadiusDirectional.circular(12),
+              // color: Colors.amber,
+              image: DecorationImage(
+                image: NetworkImage('${article['urlToImage']}'),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Container(
+              height: 120,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(
+                    child: Text(
+                      '${article['title']}',
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+                  Text(
+                    '${article['publishedAt']}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+Widget buildMyDivider() => Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Container(
+        width: double.infinity,
+        color: Colors.grey[300],
+        height: 1.0,
+      ),
+    );
+
+Widget buildArticle(list, context) => ConditionalBuilder(
+      condition: list.length > 0,
+      builder: (context) => ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) => buildArticleItem(list[index], context),
+        separatorBuilder: (context, index) => buildMyDivider(),
+        itemCount: 10,
+      ),
+      fallback: (context) => const Center(child: CircularProgressIndicator()),
+    );

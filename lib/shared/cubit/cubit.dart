@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:test_one/shared/cubit/states.dart';
+import 'package:test_one/shared/network/local/cache_helper.dart';
 
 import '../../modules/archived_tasks/archived_task.dart';
 import '../../modules/done_tasks/done_task.dart';
@@ -142,5 +143,19 @@ class AppCubit extends Cubit<AppStates> {
     isBottomSheetShown = isShow;
     fabIcon = icon;
     emit(AppChangeBottomNavBarState());
+  }
+
+  bool isDark = false;
+  ThemeMode appMode = ThemeMode.dark;
+  void changeAppMode({bool? fromShared}) {
+    if (fromShared != null) {
+      isDark = fromShared;
+      emit(AppChangeModeState());
+    } else {
+      isDark = !isDark;
+      CacheHelper.putData(key: 'isDark', value: isDark).then((value) {
+        emit(AppChangeModeState());
+      });
+    }
   }
 }

@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 
 class DioHelper {
-  static Dio? dio;
+  static late Dio dio;
 
   static init() {
     dio = Dio(
       BaseOptions(
-          baseUrl: 'https://newsapi.org/', receiveDataWhenStatusError: true),
+          baseUrl: 'https://newsapi.org', receiveDataWhenStatusError: true),
     );
   }
 
@@ -14,7 +14,7 @@ class DioHelper {
     required String url,
     required Map<String, dynamic> query,
   }) async {
-    return await dio!.get(url, queryParameters: query);
+    return await dio.get(url, queryParameters: query);
   }
 }
 //88e3eeab017048b4b3bf830cc81ceb91
