@@ -13,6 +13,7 @@ import 'package:test_one/shared/cubit/states.dart';
 import 'package:test_one/shared/network/local/cache_helper.dart';
 import 'package:test_one/shared/network/remote/dio_helper.dart';
 
+import 'layout/news_app/cubit/cubit.dart';
 import 'layout/news_app/news_layout.dart';
 
 void main() async {
@@ -29,11 +30,17 @@ class MyApp extends StatelessWidget {
   const MyApp(this.isDark, {super.key});
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppCubit()
-        ..changeAppMode(
-          fromShared: isDark,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (BuildContext context) => NewsCubit()
+              ..getBusiness()
+              ..getSports()
+              ..getScience()),
+        BlocProvider(
+          create: (context) => AppCubit()..changeAppMode(fromShared: isDark),
         ),
+      ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {

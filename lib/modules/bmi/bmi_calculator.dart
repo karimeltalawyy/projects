@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_one/modules/bmi/bmi_result.dart';
 
 class BmiCalculator extends StatefulWidget {
   const BmiCalculator({super.key});
@@ -150,11 +151,13 @@ class _BmiCalculatorState extends State<BmiCalculator> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FloatingActionButton(
+                                  heroTag: 'remove',
                                   onPressed: () {},
                                   mini: true,
                                   child: const Icon(Icons.remove),
                                 ),
                                 FloatingActionButton(
+                                  heroTag: 'add',
                                   onPressed: () {},
                                   mini: true,
                                   child: const Icon(Icons.add),
@@ -191,11 +194,13 @@ class _BmiCalculatorState extends State<BmiCalculator> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 FloatingActionButton(
+                                  heroTag: 'Age remove',
                                   onPressed: () {},
                                   mini: true,
                                   child: const Icon(Icons.remove),
                                 ),
                                 FloatingActionButton(
+                                  heroTag: 'Age Add',
                                   onPressed: () {},
                                   mini: true,
                                   child: const Icon(Icons.add),
@@ -213,7 +218,12 @@ class _BmiCalculatorState extends State<BmiCalculator> {
             width: double.infinity,
             color: Colors.deepPurple,
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const BmiResultScreen()));
+              },
               child: const Text(
                 'Calculate',
                 style: TextStyle(

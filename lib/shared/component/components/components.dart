@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 
+import '../../../modules/bmi/bmi_result.dart';
 import '../../cubit/cubit.dart';
 
 Widget defaultButton({
@@ -246,4 +247,9 @@ Widget buildArticle(list, context) => ConditionalBuilder(
         itemCount: 10,
       ),
       fallback: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+void navigateTo(context, widget) => Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
     );
