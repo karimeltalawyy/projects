@@ -1,4 +1,7 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+
+import '../../cubit/cubit.dart';
 
 Widget defaultButton({
   Color? backgroundColor = Colors.redAccent,
@@ -61,7 +64,7 @@ Widget defaultFormFeild({
       },
       keyboardType: type,
       validator: (s) {
-        validate(s);
+        return validate(s);
       },
       enabled: isClickable,
       decoration: InputDecoration(
@@ -80,34 +83,99 @@ Widget defaultFormFeild({
       ),
     );
 
-Widget buildTaskItem(Map model) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 40,
-            child: Text('${model['time']}'),
-          ),
-          const SizedBox(width: 22),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                '${model['title']}',
-                style:
-                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '${model['date']}',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[500],
-                ),
-              ),
-            ],
-          ),
-        ],
+Widget taskBuilder({
+  required List<Map> tasks,
+}) =>
+    ConditionalBuilder(
+      condition: tasks.length > 0,
+      builder: (context) => ListView.separated(
+        itemBuilder: (context, index) {
+          // print('task status ${tasks[index]['status']}');
+          return buildTaskItem(tasks[index], context);
+        },
+        separatorBuilder: (context, index) => Container(
+          width: double.infinity,
+          color: Colors.grey[300],
+          height: 1.0,
+        ),
+        itemCount: tasks.length,
       ),
+      fallback: (context) => Center(
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.signal_wifi_statusbar_null, color: Colors.grey),
+            Text(
+              'No tasks yet, please add some tasks',
+              style: TextStyle(color: Colors.grey),
+            ),
+          ],
+        ),
+      ),
+    );
+
+Widget buildTaskItem(Map model, context) => Dismissible(
+      key: Key(model['id'].toString()),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            CircleAvatar(
+              radius: 40,
+              child: Text('${model['time']}'),
+            ),
+            const SizedBox(width: 22),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${model['title']}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w700, fontSize: 18),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    '${model['date']}',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 22),
+            IconButton(
+              onPressed: () {
+                AppCubit.get(context).updateData(
+                  status: 'Done',
+                  id: model['id'],
+                );
+              },
+              icon: const Icon(
+                Icons.check_box,
+                color: Colors.green,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                AppCubit.get(context).updateData(
+                  status: 'Archive',
+                  id: model['id'],
+                );
+              },
+              icon: const Icon(
+                Icons.archive,
+                color: Colors.black12,
+              ),
+            ),
+          ],
+        ),
+      ),
+      onDismissed: (direction) {
+        AppCubit.get(context).deleteData(id: model['id']);
+      },
     );
