@@ -1,5 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:test_one/modules/webview/webview_screen.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 Widget defaultButton({
   Color? backgroundColor = Colors.redAccent,
@@ -79,52 +81,59 @@ Widget defaultFormFeild({
       ),
     );
 
-Widget buildArticleItem(article,context) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Container(
-            height: 120,
-            width: 120,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadiusDirectional.circular(12),
-              // color: Colors.deepOrange,
-              image: DecorationImage(
-                image: NetworkImage(
-                  '${article['urlToImage']}',
-                ),
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Container(
+Widget buildArticleItem(article, context) => InkWell(
+  onTap: (){
+    navigateTo(context, WebviewScreen(article['url']));
+  },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            Container(
               height: 120,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${article['title']}',
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
+              width: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.circular(12),
+
+                // color: Colors.deepOrange,
+
+                image: DecorationImage(
+                  image: NetworkImage(
+                    '${article['urlToImage']}',
                   ),
-                  Text(
-                    '${article['publishedAt']}',
-                    style: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
-                  )
-                ],
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Expanded(
+              child: Container(
+                height: 120,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${article['title']}',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                    ),
+                    Text(
+                      '${article['publishedAt']}',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
 
@@ -137,15 +146,20 @@ Widget buildMydivider() => Padding(
       ),
     );
 
-Widget articleBuilderItem(list,context) => ConditionalBuilder(
+Widget articleBuilderItem(list, context) => ConditionalBuilder(
       condition: list.length > 0,
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
-        itemBuilder: (context, index) => buildArticleItem(list[index],context),
+        itemBuilder: (context, index) => buildArticleItem(list[index], context),
         separatorBuilder: (context, index) => buildMydivider(),
         itemCount: 10,
       ),
       fallback: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
+    );
+
+void navigateTo(context, widget) => Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
     );
