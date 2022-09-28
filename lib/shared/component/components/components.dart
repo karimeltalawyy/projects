@@ -1,13 +1,15 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:test_one/modules/webview/webview_screen.dart';
+import 'package:test_one/shared/styles/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../../../modules/news_app/webview/webview_screen.dart';
+
 Widget defaultButton({
-  Color? backgroundColor = Colors.redAccent,
+  Color? backgroundColor = defaultColor,
   double? width = double.infinity,
   bool isUpperCase = true,
-  double radius = 12.0,
+  double radius = 8.0,
   required String text,
   required Function function,
 }) =>
@@ -26,11 +28,22 @@ Widget defaultButton({
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
           style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w900,
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
+    );
+
+Widget defaultTextButton({
+  required String text,
+  required Function function,
+}) =>
+    TextButton(
+      onPressed: () {
+        function();
+      },
+      child: Text(text),
     );
 
 Widget defaultFormFeild({
@@ -82,9 +95,9 @@ Widget defaultFormFeild({
     );
 
 Widget buildArticleItem(article, context) => InkWell(
-  onTap: (){
-    navigateTo(context, WebviewScreen(article['url']));
-  },
+      onTap: () {
+        navigateTo(context, WebviewScreen(article['url']));
+      },
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Row(
@@ -162,4 +175,10 @@ Widget articleBuilderItem(list, context) => ConditionalBuilder(
 void navigateTo(context, widget) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => widget),
+    );
+
+void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
+      (route) => false,
     );

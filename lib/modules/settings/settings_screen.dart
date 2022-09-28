@@ -10,7 +10,7 @@ class SettingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              'Science Screen',
+              'Settings Screen',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
