@@ -1,8 +1,11 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../modules/bmi/bmi_result.dart';
+import '../../../modules/webview/webview_sceen.dart';
 import '../../cubit/cubit.dart';
+import '../../styles/colors/colors.dart';
 
 Widget defaultButton({
   Color? backgroundColor = Colors.redAccent,
@@ -29,6 +32,8 @@ Widget defaultButton({
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w900,
+            color: Colors.white,
+            fontFamily: 'Inter',
           ),
         ),
       ),
@@ -181,51 +186,58 @@ Widget buildTaskItem(Map model, context) => Dismissible(
       },
     );
 
-Widget buildArticleItem(article, context) => Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: [
-          Container(
-            height: 120,
-            width: 120,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadiusDirectional.circular(12),
-              // color: Colors.amber,
-              image: DecorationImage(
-                image: NetworkImage('${article['urlToImage']}'),
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Container(
+Widget buildArticleItem(article, context) => InkWell(
+      onTap: () {
+        navigateTo(context, WebviewScreen(article['url']));
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: [
+            Container(
               height: 120,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(
-                    child: Text(
-                      '${article['title']}',
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ),
-                  Text(
-                    '${article['publishedAt']}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
+              width: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.circular(12),
+
+                // color: Colors.amber,
+
+                image: DecorationImage(
+                  image: NetworkImage('${article['urlToImage']}'),
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
-          ),
-        ],
+            const SizedBox(width: 16),
+            Expanded(
+              child: Container(
+                height: 120,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '${article['title']}',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                    ),
+                    Text(
+                      '${article['publishedAt']}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
 
@@ -238,7 +250,7 @@ Widget buildMyDivider() => Padding(
       ),
     );
 
-Widget buildArticle(list, context) => ConditionalBuilder(
+Widget buildArticle(list, context, {isSearch = false}) => ConditionalBuilder(
       condition: list.length > 0,
       builder: (context) => ListView.separated(
         physics: const BouncingScrollPhysics(),
@@ -246,10 +258,65 @@ Widget buildArticle(list, context) => ConditionalBuilder(
         separatorBuilder: (context, index) => buildMyDivider(),
         itemCount: 10,
       ),
-      fallback: (context) => const Center(child: CircularProgressIndicator()),
+      fallback: (context) => isSearch
+          ? Container()
+          : const Center(child: CircularProgressIndicator()),
     );
 
 void navigateTo(context, widget) => Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => widget),
     );
+void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => widget),
+      (route) => false,
+    );
+Widget defaultTextButton({
+  required Function function,
+  required String text,
+}) =>
+    TextButton(
+      onPressed: () {
+        function();
+      },
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: defaultColor,
+          fontFamily: 'Inter',
+        ),
+      ),
+    );
+
+void showToast({
+  required String message,
+  required ToastStates state,
+}) =>
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 5,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+
+enum ToastStates { SUCCESS, ERROR, WARNING }
+
+Color chooseToastColor(ToastStates state) {
+  Color color;
+  switch (state) {
+    case ToastStates.SUCCESS:
+      color = Colors.green;
+      break;
+    case ToastStates.ERROR:
+      color = Colors.green;
+      break;
+    case ToastStates.WARNING:
+      color = Colors.green;
+      break;
+  }
+  return color;
+}
