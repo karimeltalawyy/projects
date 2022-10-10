@@ -1,21 +1,87 @@
+import 'package:bloc/bloc.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
-import 'package:test_one/layout/home_layout.dart';
-import 'package:test_one/modules/bmi/bmi_calculator.dart';
-import 'package:test_one/modules/counter/counter_screen.dart';
-import 'package:test_one/modules/login/login_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:test_one/layout/shop_app/cubit/cubit.dart';
+import 'package:test_one/layout/todo_app/todo_layout.dart';
+import 'package:test_one/modules/bmi_app/bmi/bmi_calculator.dart';
+import 'package:test_one/modules/basics/counter/counter_screen.dart';
+import 'package:test_one/modules/basics/login/login_screen.dart';
+import 'package:test_one/shared/bloc_observer.dart';
+import 'package:test_one/shared/cubit/cubit.dart';
+import 'package:test_one/shared/cubit/states.dart';
+import 'package:test_one/shared/network/local/cache_helper.dart';
+import 'package:test_one/shared/network/remote/dio_helper.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'layout/news_app/cubit/cubit.dart';
+import 'layout/news_app/news_layout.dart';
+import 'layout/shop_app/shop_app_layout.dart';
+import 'modules/shop_app/login/shop_login.dart';
+import 'modules/shop_app/onboarding/onboarding_screen.dart';
+import 'shared/styles/themes/themes.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await CacheHelper.init();
+  Bloc.observer = MyBlocObserver();
+  DioHelper.init();
+  Widget? widget;
+  bool? isDark = CacheHelper.getData(key: 'isDark');
+  bool? onBoarding = CacheHelper.getData(key: 'OnBoarding');
+  String? token = CacheHelper.getData(key: 'token');
+  if (onBoarding != null) {
+    if (token != null) {
+      widget = const ShopAppLayout();
+    } else {
+      widget = ShopLoginScreen();
+    }
+  } else {
+    widget = const OnBoardingScreen();
+  }
+
+  runApp(
+    MyApp(
+      isDark: isDark,
+      startWidget: widget,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  final bool? isDark;
+  final Widget? startWidget;
+  const MyApp({super.key, this.isDark, this.startWidget});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: CounterScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            create: (BuildContext context) => NewsCubit()
+              ..getBusiness()
+              ..getSports()
+              ..getScience()),
+        BlocProvider(
+          create: (context) => AppCubit()..changeAppMode(fromShared: isDark),
+        ),
+        BlocProvider(
+          create: (context) => ShopCubit()..getHomeData(),
+        ),
+      ],
+      child: BlocConsumer<AppCubit, AppStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          return MaterialApp(
+            theme: lightTheme,
+            themeMode:ThemeMode.light,
+                //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+            darkTheme: darkTheme,
+            debugShowCheckedModeBanner: false,
+            home: startWidget,
+          );
+        },
+      ),
     );
   }
 }
