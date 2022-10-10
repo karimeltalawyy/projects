@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:test_one/modules/archived_tasks/archived_task.dart';
-import 'package:test_one/modules/done_tasks/done_task.dart';
-import 'package:test_one/modules/new_tasks/new_task.dart';
+import 'package:test_one/modules/todo_app/archived_tasks/archived_task.dart';
+import 'package:test_one/modules/todo_app/done_tasks/done_task.dart';
+import 'package:test_one/modules/todo_app/new_tasks/new_task.dart';
 import 'package:intl/intl.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import '../../shared/component/components/components.dart';

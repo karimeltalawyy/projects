@@ -4,9 +4,9 @@ import 'package:sqflite/sqflite.dart';
 import 'package:test_one/shared/cubit/states.dart';
 import 'package:test_one/shared/network/local/cache_helper.dart';
 
-import '../../modules/archived_tasks/archived_task.dart';
-import '../../modules/done_tasks/done_task.dart';
-import '../../modules/new_tasks/new_task.dart';
+import '../../modules/todo_app/archived_tasks/archived_task.dart';
+import '../../modules/todo_app/done_tasks/done_task.dart';
+import '../../modules/todo_app/new_tasks/new_task.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitialState());

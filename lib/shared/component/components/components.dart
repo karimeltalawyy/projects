@@ -2,8 +2,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../../modules/bmi/bmi_result.dart';
-import '../../../modules/webview/webview_sceen.dart';
+import '../../../modules/bmi_app/bmi/bmi_result.dart';
+import '../../../modules/news_app/webview/webview_sceen.dart';
 import '../../cubit/cubit.dart';
 import '../../styles/colors/colors.dart';
 

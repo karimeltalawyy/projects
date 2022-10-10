@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_one/modules/login/cubit/cubit.dart';
-import 'package:test_one/modules/login/cubit/states.dart';
+import 'package:test_one/modules/basics/login/cubit/cubit.dart';
+import 'package:test_one/modules/basics/login/cubit/states.dart';
 import 'package:test_one/layout/shop_app/shop_app_layout.dart';
 import 'package:test_one/shared/component/components/components.dart';
 import 'package:test_one/shared/network/local/cache_helper.dart';

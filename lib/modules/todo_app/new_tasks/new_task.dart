@@ -5,7 +5,7 @@ import 'package:test_one/shared/component/components/components.dart';
 import 'package:test_one/shared/cubit/cubit.dart';
 import 'package:test_one/shared/cubit/states.dart';
 
-import '../../shared/component/constants/constants.dart';
+import '../../../shared/component/constants/constants.dart';
 
 class NewTaskScreen extends StatelessWidget {
   const NewTaskScreen({super.key});

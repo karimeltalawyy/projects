@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:test_one/layout/shop_app/cubit/cubit.dart';
 import 'package:test_one/layout/todo_app/todo_layout.dart';
-import 'package:test_one/modules/bmi/bmi_calculator.dart';
-import 'package:test_one/modules/counter/counter_screen.dart';
-import 'package:test_one/modules/login/login_screen.dart';
+import 'package:test_one/modules/bmi_app/bmi/bmi_calculator.dart';
+import 'package:test_one/modules/basics/counter/counter_screen.dart';
+import 'package:test_one/modules/basics/login/login_screen.dart';
 import 'package:test_one/shared/bloc_observer.dart';
 import 'package:test_one/shared/cubit/cubit.dart';
 import 'package:test_one/shared/cubit/states.dart';
@@ -64,14 +65,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AppCubit()..changeAppMode(fromShared: isDark),
         ),
+        BlocProvider(
+          create: (context) => ShopCubit()..getHomeData(),
+        ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
             theme: lightTheme,
-            themeMode:
-                AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+            themeMode:ThemeMode.light,
+                //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             darkTheme: darkTheme,
             debugShowCheckedModeBanner: false,
             home: startWidget,
