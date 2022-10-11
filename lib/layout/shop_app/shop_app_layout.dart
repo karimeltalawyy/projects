@@ -19,24 +19,36 @@ class ShopAppLayout extends StatelessWidget {
         var cubit = ShopCubit.get(context);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('SHOPly'),
-            actions:  [
-              IconButton(onPressed: (){
-                navigateTo(context, const SearchScreen());
-              }, icon:const Icon(Icons.search)),
+            title: const Text(
+              'SHOPLY',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Inter',
+                fontSize: 18,
+              ),
+            ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    navigateTo(context, const SearchScreen());
+                  },
+                  icon: const Icon(Icons.search)),
             ],
           ),
           body: cubit.bottomScreens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
-            onTap: (index){
+            onTap: (index) {
               cubit.changeBottomNav(index);
             },
             currentIndex: cubit.currentIndex,
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.grid_4x4_outlined), label: 'Category'),
-              BottomNavigationBarItem(icon: Icon(Icons.favorite), label: 'Favorites'),
-              BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.grid_4x4_outlined), label: 'Category'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite), label: 'Favorites'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings), label: 'Settings'),
             ],
           ),
         );

@@ -66,7 +66,9 @@ class MyApp extends StatelessWidget {
           create: (context) => AppCubit()..changeAppMode(fromShared: isDark),
         ),
         BlocProvider(
-          create: (context) => ShopCubit()..getHomeData(),
+          create: (context) => ShopCubit()
+            ..getHomeData()
+            ..getcategories(),
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
@@ -74,8 +76,8 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             theme: lightTheme,
-            themeMode:ThemeMode.light,
-                //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
+            themeMode: ThemeMode.light,
+            //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             darkTheme: darkTheme,
             debugShowCheckedModeBanner: false,
             home: startWidget,

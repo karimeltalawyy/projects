@@ -7,6 +7,8 @@ import 'package:test_one/layout/shop_app/cubit/states.dart';
 import 'package:test_one/models/shop_app/home_model.dart';
 import 'package:test_one/shared/styles/colors/colors.dart';
 
+import '../../../models/shop_app/categories_model.dart';
+
 class ProductsScreen extends StatelessWidget {
   const ProductsScreen({super.key});
 
@@ -16,9 +18,10 @@ class ProductsScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return ConditionalBuilder(
-          condition: ShopCubit.get(context).homeModel != null,
-          builder: (context) =>
-              builderWidget(ShopCubit.get(context).homeModel!),
+          condition: ShopCubit.get(context).homeModel != null &&
+              ShopCubit.get(context).categoriesModel != null,
+          builder: (context) => builderWidget(ShopCubit.get(context).homeModel!,
+              ShopCubit.get(context).categoriesModel!),
           fallback: (context) => const Center(
             child: CircularProgressIndicator(),
           ),
@@ -27,9 +30,11 @@ class ProductsScreen extends StatelessWidget {
     );
   }
 
-  Widget builderWidget(HomeModel model) => SingleChildScrollView(
+  Widget builderWidget(HomeModel model, CategoriesModel categoryModel) =>
+      SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CarouselSlider(
               items: model.data!.banners
@@ -55,6 +60,48 @@ class ProductsScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Categories',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    height: 100,
+                    child: ListView.separated(
+                      physics: const BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) =>
+                          buildCategoryItem(categoryModel.data!.data![index]),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 12),
+                      itemCount: categoryModel.data!.data!.length,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Products',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 8),
             Container(
               color: Colors.grey[200],
               child: GridView.count(
@@ -96,6 +143,7 @@ class ProductsScreen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 9,
                         color: Colors.white,
+                        fontFamily: 'Inter',
                       ),
                     ),
                   ),
@@ -142,7 +190,6 @@ class ProductsScreen extends StatelessWidget {
                         icon: const Icon(
                           Icons.favorite_border,
                           size: 14,
-                          
                         ),
                       ),
                     ],
@@ -152,5 +199,33 @@ class ProductsScreen extends StatelessWidget {
             ),
           ],
         ),
+      );
+  Widget buildCategoryItem(DataModel model) => Stack(
+        alignment: AlignmentDirectional.bottomStart,
+        children: [
+          Image(
+            fit: BoxFit.cover,
+            width: 100.0,
+            height: 100.0,
+            image: NetworkImage(
+              '${model.image}',
+            ),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.7),
+            width: 100.0,
+            child: Text(
+              '${model.name}',
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.white,
+                fontFamily: 'Inter',
+              ),
+            ),
+          ),
+        ],
       );
 }
