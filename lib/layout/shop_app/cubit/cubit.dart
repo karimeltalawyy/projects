@@ -12,6 +12,7 @@ import 'package:test_one/shared/network/remote/dio_helper.dart';
 
 import '../../../models/shop_app/categories_model.dart';
 import '../../../models/shop_app/change_favorites_model.dart';
+import '../../../models/shop_app/favorites_model.dart';
 import '../../../modules/shop_app/categories/categories_screen.dart';
 import '../../../shared/network/endpoints.dart';
 
@@ -80,11 +81,35 @@ class ShopCubit extends Cubit<ShopStates> {
       (value) {
         changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
         print(value.data);
+        if (!changeFavoritesModel!.status!) {
+          favorites![productId] = !favorites![productId]!;
+        }
         emit(ShopSuccessChangeFavoritesState(changeFavoritesModel!));
       },
     ).catchError(
       (error) {
+        favorites![productId] = !favorites![productId]!;
         emit(ShopErrorChangeFavoritesState());
+      },
+    );
+  }
+
+  FavoritesModel? favoritesModel;
+
+  void getFavorites() {
+    DioHelper.getData(
+      url: FAVORITES,
+      token: token,
+    ).then(
+      (value) {
+        favoritesModel = FavoritesModel.fromJson(value.data);
+        print(value.data.toString());
+        emit(ShopSuccessGetFavoritesState());
+      },
+    ).catchError(
+      (error) {
+        print(error.toString());
+        emit(ShopErrorGetFavoritesState());
       },
     );
   }
