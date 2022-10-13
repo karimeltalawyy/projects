@@ -1,3 +1,4 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_one/shared/component/components/components.dart';
@@ -15,14 +16,21 @@ class FavoritesScreen extends StatelessWidget {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {},
       builder: (context, state) {
+        var cubit =ShopCubit.get(context);
         return Scaffold(
-          body: ListView.separated(
-            itemBuilder: (context, index) => buildFavItem(
-                ShopCubit.get(context).favoritesModel!.data!.data![index],
-                context),
-            separatorBuilder: (context, index) => buildMyDivider(),
-            itemCount:
-                ShopCubit.get(context).favoritesModel!.data!.data!.length,
+          body: ConditionalBuilder(
+            condition: state is! ShopLoadingGetFavoritesState,
+            builder: (context) => ListView.separated(
+              itemBuilder: (context, index) => buildFavItem(
+                  ShopCubit.get(context).favoritesModel!.data!.data![index],
+                  context),
+              separatorBuilder: (context, index) => buildMyDivider(),
+              itemCount:
+                  ShopCubit.get(context).favoritesModel!.data!.data!.length,
+            ),
+            fallback: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
         );
       },
@@ -102,12 +110,11 @@ class FavoritesScreen extends StatelessWidget {
                         const Spacer(),
                         IconButton(
                           onPressed: () {
-                            ShopCubit.get(context)
-                                .changeFavorites(model.product!.id);
+                            ShopCubit.get(context).changeFavorites(model.product!.id);
                           },
-                          icon: const CircleAvatar(
-                            // backgroundColor: ShopCubit.get(context).favorites![model.product!.id]! ? defaultColor : Colors.grey,
-                            child: Icon(
+                          icon:  CircleAvatar(
+                             backgroundColor: ShopCubit.get(context).favorites![model.product?.id]! ? defaultColor : Colors.grey,
+                            child:const Icon(
                               Icons.favorite_border,
                               size: 14,
                               color: Colors.white,
