@@ -20,10 +20,10 @@ class ShopAppLayout extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: const Text(
-              'SHOPLY',
+              'Shopply',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Inter',
+                fontFamily: 'Satoshi',
                 fontSize: 18,
               ),
             ),

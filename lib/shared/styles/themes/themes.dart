@@ -9,7 +9,7 @@ ThemeData darkTheme = ThemeData(
       fontSize: 18.0,
       fontWeight: FontWeight.bold,
       color: Colors.white,
-      fontFamily: 'Inter',
+      fontFamily: 'Satoshi',
     ),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -41,7 +41,7 @@ ThemeData lightTheme = ThemeData(
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: Colors.black,
-        fontFamily: 'Inter',
+        fontFamily: 'Satoshi',
       ),
     ),
     primarySwatch: Colors.deepOrange,

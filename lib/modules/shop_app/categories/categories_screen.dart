@@ -40,9 +40,9 @@ class CategoriesScreen extends StatelessWidget {
             Text(
               '${model.name}',
               style: const TextStyle(
-                fontFamily: 'Inter',
+                fontFamily: 'Satoshi',
                 fontSize: 20,
-                fontWeight: FontWeight.bold,
+                // fontWeight: FontWeight.bold,
               ),
             ),
             const Spacer(),

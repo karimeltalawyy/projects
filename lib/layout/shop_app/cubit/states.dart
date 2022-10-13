@@ -15,3 +15,7 @@ class ShopErrorHomeDataState extends ShopStates {}
 class ShopErrorCategoriesState extends ShopStates {}
 
 class ShopSuccessCategoriesState extends ShopStates {}
+
+class ShopSuccessFavoritesState extends ShopStates {}
+
+class ShopErrorFavoritesState extends ShopStates {}
