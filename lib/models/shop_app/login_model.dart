@@ -1,8 +1,8 @@
 class ShopLoginModel {
-  late String message;
-  late bool status;
-  late UserData data;
-  ShopLoginModel.fromJson(Map<String, dynamic> json) {
+   String? message;
+   bool? status;
+   UserData? data;
+   ShopLoginModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     status = json['status'];
     data = (json['data'] != null ? UserData.fromJson(json['data']) : null)!;
@@ -11,7 +11,7 @@ class ShopLoginModel {
 
 class UserData {
   late int id;
-  late String name;
+   String? name;
   late String email;
   late String phone;
   late String image;

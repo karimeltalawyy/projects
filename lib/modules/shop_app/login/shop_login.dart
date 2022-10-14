@@ -7,6 +7,8 @@ import 'package:test_one/layout/shop_app/shop_app_layout.dart';
 import 'package:test_one/shared/component/components/components.dart';
 import 'package:test_one/shared/network/local/cache_helper.dart';
 
+import '../../../shared/component/constants/constants.dart';
+
 class ShopLoginScreen extends StatelessWidget {
   ShopLoginScreen({super.key});
   var emailController = TextEditingController();
@@ -19,15 +21,15 @@ class ShopLoginScreen extends StatelessWidget {
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
         listener: (context, state) {
           if (state is ShopLoginSuccsessState) {
-            if (state.loginModel.status) {
+            if (state.loginModel.status!) {
               print(state.loginModel.message);
-              print(state.loginModel.data.token);
+              print(state.loginModel.data!.token);
               CacheHelper.saveData(
                 key: 'token',
-                value: state.loginModel.data.token,
+                value: state.loginModel.data!.token,
               ).then(
                 (value) {
-                  // token = state.loginModel.data.token;
+                  token = state.loginModel.data!.token;
                   navigateAndFinish(
                     context,
                     const ShopAppLayout(),
@@ -40,7 +42,7 @@ class ShopLoginScreen extends StatelessWidget {
               //stay here
               print(state.loginModel.message);
               showToast(
-                message: state.loginModel.message,
+                message: state.loginModel.message!,
                 state: ToastStates.ERROR,
               );
             }

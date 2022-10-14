@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_one/layout/shop_app/cubit/states.dart';
 import 'package:test_one/models/shop_app/home_model.dart';
+import 'package:test_one/models/shop_app/login_model.dart';
 import 'package:test_one/modules/shop_app/favorites/favorites_screen.dart';
 import 'package:test_one/modules/shop_app/products/products_screen.dart';
 import 'package:test_one/modules/shop_app/settings/settings_screen.dart';
@@ -21,7 +21,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
   static ShopCubit get(context) => BlocProvider.of(context);
   int currentIndex = 0;
-  List<Widget> bottomScreens = const [
+  List<Widget> bottomScreens =  [
     ProductsScreen(),
     CategoriesScreen(),
     FavoritesScreen(),
@@ -113,6 +113,27 @@ class ShopCubit extends Cubit<ShopStates> {
       (error) {
         print(error.toString());
         emit(ShopErrorGetFavoritesState());
+      },
+    );
+  }
+
+  ShopLoginModel? userModel ;
+
+  void getUserData() {
+    emit(ShopLoadingUserDataState());
+    DioHelper.getData(
+      url: PROFILE,
+      token: token,
+    ).then(
+          (value) {
+            userModel = ShopLoginModel.fromJson(value.data);
+        print(userModel!.data!.name);
+        emit(ShopSuccessUserDataState(userModel!));
+      },
+    ).catchError(
+          (error) {
+        print(error.toString());
+        emit(ShopErrorUserDataState());
       },
     );
   }
