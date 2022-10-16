@@ -3,7 +3,16 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class BmiResultScreen extends StatelessWidget {
-  const BmiResultScreen({super.key});
+  final double result;
+  final bool isMale;
+  final int age;
+
+  const BmiResultScreen({
+    Key? key,
+    required this.age,
+    required this.isMale,
+    required this.result,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +21,31 @@ class BmiResultScreen extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('Age:20',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
-            Text('Height:180',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
-            Text('Weight:80',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700)),
+          children: [
+            Text(
+              'Gender : ${isMale ? 'Male' : 'Female'}',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Satoshi',
+              ),
+            ),
+            Text(
+              'Result : ${result.round()}',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Satoshi',
+              ),
+            ),
+            Text(
+              'Age : $age',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Satoshi',
+              ),
+            ),
           ],
         ),
       ),
