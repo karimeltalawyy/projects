@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_one/modules/basics/login/cubit/cubit.dart';
 import 'package:test_one/modules/basics/login/cubit/states.dart';
 import 'package:test_one/layout/shop_app/shop_app_layout.dart';
+import 'package:test_one/modules/shop_app/signup/shop_signup.dart';
 import 'package:test_one/shared/component/components/components.dart';
 import 'package:test_one/shared/network/local/cache_helper.dart';
 
@@ -11,9 +12,11 @@ import '../../../shared/component/constants/constants.dart';
 
 class ShopLoginScreen extends StatelessWidget {
   ShopLoginScreen({super.key});
+
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -142,19 +145,15 @@ class ShopLoginScreen extends StatelessWidget {
                             const Text(
                               'Don\'t have an account yet?',
                               style: TextStyle(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Satoshi medium',
                               ),
                             ),
                             defaultTextButton(
-                              function: () {},
-                              text: 'REGISTER',
+                              function: () {
+                                navigateTo(context, ShopSignUpScreen());
+                              },
+                              text: 'SIGN UP',
                             ),
-                            // TextButton(
-                            //   onPressed: () {},
-                            //   child: const Text(
-                            //     'REGISTER',
-                            //   ),
-                            // ),
                           ],
                         )
                       ],
