@@ -12,6 +12,7 @@ class ShopRegisterCubit extends Cubit<ShopRegisterStates> {
 
   static ShopRegisterCubit get(context) => BlocProvider.of(context);
   ShopLoginModel? loginModel;
+
   void userRegister({
     required String email,
     required String password,
@@ -34,17 +35,12 @@ class ShopRegisterCubit extends Cubit<ShopRegisterStates> {
         // print(loginModel?.data.token);
         // print(loginModel?.status);
         // print(loginModel?.message);
-        emit(
-          ShopRegisterSuccessState(loginModel!),
-
-        );
+        emit(ShopRegisterSuccessState(loginModel!));
       },
     ).catchError(
       (error) {
         print(error.toString());
-        emit(
-          ShopRegisterErrorState(error.toString()),
-        );
+        emit(ShopRegisterErrorState(error.toString()));
       },
     );
   }

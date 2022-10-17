@@ -32,7 +32,7 @@ class ShopLoginScreen extends StatelessWidget {
                 value: state.loginModel.data!.token,
               ).then(
                 (value) {
-                  token = state.loginModel.data!.token;
+                  token = state.loginModel.data!.token!;
                   navigateAndFinish(
                     context,
                     const ShopAppLayout(),

@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../layout/shop_app/cubit/cubit.dart';
 import '../../../modules/bmi_app/bmi/bmi_result.dart';
 import '../../../modules/news_app/webview/webview_sceen.dart';
 import '../../cubit/cubit.dart';
@@ -30,10 +31,10 @@ Widget defaultButton({
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
           style: const TextStyle(
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: FontWeight.w900,
             color: Colors.white,
-            fontFamily: 'Inter',
+            fontFamily: 'Satoshi',
           ),
         ),
       ),
@@ -43,9 +44,9 @@ Widget defaultFormFeild({
   required TextEditingController controller,
   required TextInputType type,
   Function? onSubmit,
-  Function? onChanged,
-  Function? onTap,
-  Function? suffixPressed,
+  ValueChanged<String>? onChanged,
+  VoidCallback? onTap,
+  VoidCallback? suffixPressed,
   AutovalidateMode? autoValidate,
   required Function validate,
   required String? label,
@@ -59,14 +60,10 @@ Widget defaultFormFeild({
       autovalidateMode: autoValidate,
       obscureText: isPassword,
       controller: controller,
-      onChanged: ((s) {
-        onChanged ?? (s);
-      }),
-      onTap: () {
-        onTap!();
-      },
+      onChanged: onChanged,
+      onTap: onTap,
       onFieldSubmitted: (s) {
-        onSubmit ?? (s);
+        onSubmit;
       },
       keyboardType: type,
       validator: (s) {
@@ -320,3 +317,96 @@ Color chooseToastColor(ToastStates state) {
   }
   return color;
 }
+Widget buildListProducts(model, context) => Padding(
+  padding: const EdgeInsets.all(20.0),
+  child: SizedBox(
+    height: 120,
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          alignment: AlignmentDirectional.bottomStart,
+          children: [
+            Image(
+              image: NetworkImage(
+                '${model.image}',
+              ),
+              width: 120,
+              height: 120,
+              fit: BoxFit.cover,
+            ),
+            if (model.discount != 0)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                color: Colors.red,
+                child: const Text(
+                  'DISCOUNT',
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: Colors.white,
+                    fontFamily: 'Satoshi medium',
+                  ),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '${model.name}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 22.0,
+                  height: 1.3,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Spacer(),
+              Row(
+                children: [
+                  Text(
+                    model.price.toString(),
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      color: defaultColor,
+                      fontFamily: 'Satoshi medium',
+                      // fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  if (model.discount != 0)
+                    Text(
+                      model.oldPrice.toString(),
+                      style: const TextStyle(
+                        fontSize: 11.0,
+                        color: Colors.grey,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      ShopCubit.get(context).changeFavorites(model.id);
+                    },
+                    icon:  CircleAvatar(
+                      backgroundColor: ShopCubit.get(context).favorites![model.id]! ? defaultColor : Colors.grey,
+                      child:const Icon(
+                        Icons.favorite_border,
+                        size: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  ),
+);

@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
             //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             darkTheme: darkTheme,
             debugShowCheckedModeBanner: false,
-            home: BmiCalculator(),
+            home:startWidget,
           );
         },
       ),

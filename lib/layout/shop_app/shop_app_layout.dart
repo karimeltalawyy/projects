@@ -30,7 +30,7 @@ class ShopAppLayout extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {
-                    navigateTo(context, const SearchScreen());
+                    navigateTo(context,  SearchScreen());
                   },
                   icon: const Icon(Icons.search)),
             ],

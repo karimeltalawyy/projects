@@ -10,24 +10,24 @@ class ShopLoginModel {
 }
 
 class UserData {
-  late int id;
+   int? id;
    String? name;
-  late String email;
-  late String phone;
-  late String image;
-  late int points;
-  late int credit;
-  late String token;
-  UserData({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.image,
-    required this.points,
-    required this.credit,
-    required this.token,
-  });
+   String? email;
+   String? phone;
+   String? image;
+   int? points;
+   int? credit;
+   String? token;
+  // UserData({
+  //   required this.id,
+  //   required this.name,
+  //   required this.email,
+  //   required this.phone,
+  //   required this.image,
+  //   required this.points,
+  //   required this.credit,
+  //   required this.token,
+  // });
   //named constructor
   UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
