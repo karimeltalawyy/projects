@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:test_one/layout/todo_app/todo_layout.dart';
 import 'package:test_one/modules/bmi_app/bmi/bmi_calculator.dart';
 import 'package:test_one/modules/basics/counter/counter_screen.dart';
 import 'package:test_one/modules/basics/login/login_screen.dart';
+import 'package:test_one/modules/social_app/social_login/social_login_screen.dart';
 import 'package:test_one/shared/bloc_observer.dart';
 import 'package:test_one/shared/cubit/cubit.dart';
 import 'package:test_one/shared/cubit/states.dart';
@@ -25,6 +27,7 @@ import 'shared/styles/themes/themes.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
+  await Firebase.initializeApp();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   Widget? widget;
@@ -82,7 +85,7 @@ class MyApp extends StatelessWidget {
             //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             darkTheme: darkTheme,
             debugShowCheckedModeBanner: false,
-            home:startWidget,
+            home:SocialAppLogin(),
           );
         },
       ),
