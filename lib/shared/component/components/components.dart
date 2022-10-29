@@ -55,6 +55,7 @@ Widget defaultFormFeild({
   IconData? sufix,
   bool isPassword = false,
   bool isClickable = true,
+
 }) =>
     TextFormField(
       autovalidateMode: autoValidate,
@@ -81,7 +82,13 @@ Widget defaultFormFeild({
               )
             : null,
         hintText: hint,
+        hintStyle:  const TextStyle(fontSize: 16,
+          fontWeight: FontWeight.w400,
+        ),
         labelText: label,
+        labelStyle: const TextStyle(fontSize: 16,
+        fontWeight: FontWeight.w400,
+        ),
         border: const OutlineInputBorder(),
       ),
     );

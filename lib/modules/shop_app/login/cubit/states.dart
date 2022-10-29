@@ -4,9 +4,10 @@ abstract class ShopLoginStates {}
 
 class ShopLoginInitialState extends ShopLoginStates {}
 
-class ShopLoginSuccsessState extends ShopLoginStates {
+class ShopLoginSuccessState extends ShopLoginStates {
+
   final ShopLoginModel loginModel;
-  ShopLoginSuccsessState(this.loginModel);
+  ShopLoginSuccessState(this.loginModel);
 }
 
 class ShopLoginLoadingState extends ShopLoginStates {}

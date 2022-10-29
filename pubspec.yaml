@@ -97,7 +97,9 @@ flutter:
     - family: Satoshi medium
       fonts:
         - asset: assets/fonts/Satoshi-Medium.otf
-
+    - family: IconBroken
+      fonts:
+        - asset: assets/fonts/Iconly-Broken.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

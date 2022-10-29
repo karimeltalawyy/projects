@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:test_one/layout/social_app/social_layout.dart';
 import 'package:test_one/modules/social_app/social_login/cubit/cubit.dart';
 import 'package:test_one/modules/social_app/social_signup/social_signup.dart';
 
@@ -28,6 +29,20 @@ class SocialAppLogin extends StatelessWidget {
               state: ToastStates.ERROR,
             );
           }
+          if (state is SocialLoginSuccessState) {
+            CacheHelper.saveData(
+              key: 'uId',
+              value: state.uId,
+            ).then(
+              (value) {
+                navigateAndFinish(context, const SocialLayout());
+              },
+            ).catchError(
+              (error) {
+                print(error.toString());
+              },
+            );
+          }
         },
         builder: (context, state) {
           return Scaffold(
@@ -42,23 +57,21 @@ class SocialAppLogin extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'LOGIN',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontSize: 34,
+                                  ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
+                        Text(
                           'Welcome Back! login to fast communicate',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w300,
-                            color: Colors.grey,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.subtitle1!.copyWith(
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.grey[300],
+                                  ),
                         ),
                         const SizedBox(height: 46),
                         defaultFormFeild(
@@ -120,11 +133,14 @@ class SocialAppLogin extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               'Don\'t have an account yet?',
-                              style: TextStyle(
-                                fontFamily: 'Satoshi medium',
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle1!
+                                  .copyWith(
+                                    fontWeight: FontWeight.w400,
+                                  ),
                             ),
                             defaultTextButton(
                               function: () {

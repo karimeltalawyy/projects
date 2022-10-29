@@ -23,7 +23,7 @@ class ShopLoginScreen extends StatelessWidget {
       create: (BuildContext context) => ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
         listener: (context, state) {
-          if (state is ShopLoginSuccsessState) {
+          if (state is ShopLoginSuccessState) {
             if (state.loginModel.status!) {
               print(state.loginModel.message);
               print(state.loginModel.data!.token);

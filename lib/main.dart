@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:test_one/layout/shop_app/cubit/cubit.dart';
+import 'package:test_one/layout/social_app/social_layout.dart';
 import 'package:test_one/layout/todo_app/todo_layout.dart';
 import 'package:test_one/modules/bmi_app/bmi/bmi_calculator.dart';
 import 'package:test_one/modules/basics/counter/counter_screen.dart';
@@ -16,10 +17,12 @@ import 'package:test_one/shared/cubit/cubit.dart';
 import 'package:test_one/shared/cubit/states.dart';
 import 'package:test_one/shared/network/local/cache_helper.dart';
 import 'package:test_one/shared/network/remote/dio_helper.dart';
+import 'package:test_one/shared/component/constants/constants.dart';
 
 import 'layout/news_app/cubit/cubit.dart';
 import 'layout/news_app/news_layout.dart';
 import 'layout/shop_app/shop_app_layout.dart';
+import 'layout/social_app/cubit/cubit.dart';
 import 'modules/shop_app/login/shop_login.dart';
 import 'modules/shop_app/onboarding/onboarding_screen.dart';
 import 'shared/styles/themes/themes.dart';
@@ -32,19 +35,26 @@ void main() async {
   DioHelper.init();
   Widget? widget;
   bool? isDark = CacheHelper.getData(key: 'isDark');
-  bool? onBoarding = CacheHelper.getData(key: 'OnBoarding');
-  String? token = CacheHelper.getData(key: 'token');
-  print(token);
-  if (onBoarding != null) {
-    if (token != null) {
-      widget = const ShopAppLayout();
-    } else {
-      widget = ShopLoginScreen();
-    }
+  // bool? onBoarding = CacheHelper.getData(key: 'OnBoarding');
+  // String? token = CacheHelper.getData(key: 'token');
+  // var uId = CacheHelper.getData(key: 'uId');
+// var uId =CacheHelper.getData(key: 'uId');
+  uId = CacheHelper.getData(key: 'uId');
+  print(uId);
+  // if (onBoarding != null) {
+  //   if (token != null) {
+  //     widget = const ShopAppLayout();
+  //   } else {
+  //     widget = ShopLoginScreen();
+  //   }
+  // } else {
+  //   widget = const OnBoardingScreen();
+  // }
+  if (uId != null) {
+    widget =  SocialLayout();
   } else {
-    widget = const OnBoardingScreen();
+    widget = SocialAppLogin();
   }
-
   runApp(
     MyApp(
       isDark: isDark,
@@ -56,7 +66,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   final bool? isDark;
   final Widget? startWidget;
+
   const MyApp({super.key, this.isDark, this.startWidget});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -73,7 +85,12 @@ class MyApp extends StatelessWidget {
           create: (context) => ShopCubit()
             ..getHomeData()
             ..getCategories()
-            ..getFavorites()..getUserData(),
+            ..getFavorites()
+            ..getUserData(),
+        ),
+        BlocProvider(
+          create: (context) => SocialCubit()..getUserData(),
+
         ),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
@@ -85,7 +102,7 @@ class MyApp extends StatelessWidget {
             //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             darkTheme: darkTheme,
             debugShowCheckedModeBanner: false,
-            home:SocialAppLogin(),
+            home: SocialAppLogin(),
           );
         },
       ),
