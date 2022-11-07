@@ -7,7 +7,23 @@ import '../../../modules/bmi_app/bmi/bmi_result.dart';
 import '../../../modules/news_app/webview/webview_sceen.dart';
 import '../../cubit/cubit.dart';
 import '../../styles/colors/colors.dart';
+import '../../styles/icon/icon_broken.dart';
 
+Widget defaultAppBar({
+  required BuildContext context,
+  String? title,
+  List<Widget>? actions,
+}) =>
+    AppBar(
+      leading: IconButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        icon: const Icon(IconBroken.arrowLeft1),
+      ),
+      title: Text(title!),
+      actions: actions,
+    );
 Widget defaultButton({
   Color? backgroundColor = Colors.redAccent,
   double? width = double.infinity,
@@ -55,7 +71,6 @@ Widget defaultFormFeild({
   IconData? sufix,
   bool isPassword = false,
   bool isClickable = true,
-
 }) =>
     TextFormField(
       autovalidateMode: autoValidate,
@@ -82,12 +97,14 @@ Widget defaultFormFeild({
               )
             : null,
         hintText: hint,
-        hintStyle:  const TextStyle(fontSize: 16,
+        hintStyle: const TextStyle(
+          fontSize: 16,
           fontWeight: FontWeight.w400,
         ),
         labelText: label,
-        labelStyle: const TextStyle(fontSize: 16,
-        fontWeight: FontWeight.w400,
+        labelStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
         border: const OutlineInputBorder(),
       ),
@@ -324,96 +341,100 @@ Color chooseToastColor(ToastStates state) {
   }
   return color;
 }
+
 Widget buildListProducts(model, context) => Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: SizedBox(
-    height: 120,
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          alignment: AlignmentDirectional.bottomStart,
+      padding: const EdgeInsets.all(20.0),
+      child: SizedBox(
+        height: 120,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image(
-              image: NetworkImage(
-                '${model.image}',
-              ),
-              width: 120,
-              height: 120,
-              fit: BoxFit.cover,
-            ),
-            if (model.discount != 0)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6),
-                color: Colors.red,
-                child: const Text(
-                  'DISCOUNT',
-                  style: TextStyle(
-                    fontSize: 9,
-                    color: Colors.white,
-                    fontFamily: 'Satoshi medium',
+            Stack(
+              alignment: AlignmentDirectional.bottomStart,
+              children: [
+                Image(
+                  image: NetworkImage(
+                    '${model.image}',
                   ),
+                  width: 120,
+                  height: 120,
+                  fit: BoxFit.cover,
                 ),
-              ),
-          ],
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${model.name}',
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 22.0,
-                  height: 1.3,
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Spacer(),
-              Row(
+                if (model.discount != 0)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
+                    color: Colors.red,
+                    child: const Text(
+                      'DISCOUNT',
+                      style: TextStyle(
+                        fontSize: 9,
+                        color: Colors.white,
+                        fontFamily: 'Satoshi medium',
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    model.price.toString(),
+                    '${model.name}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 14.0,
-                      color: defaultColor,
-                      fontFamily: 'Satoshi medium',
-                      // fontWeight: FontWeight.normal,
+                      fontSize: 22.0,
+                      height: 1.3,
                     ),
                   ),
-                  const SizedBox(width: 8),
-                  if (model.discount != 0)
-                    Text(
-                      model.oldPrice.toString(),
-                      style: const TextStyle(
-                        fontSize: 11.0,
-                        color: Colors.grey,
-                        decoration: TextDecoration.lineThrough,
-                      ),
-                    ),
+                  const SizedBox(height: 6),
                   const Spacer(),
-                  IconButton(
-                    onPressed: () {
-                      ShopCubit.get(context).changeFavorites(model.id);
-                    },
-                    icon:  CircleAvatar(
-                      backgroundColor: ShopCubit.get(context).favorites![model.id]! ? defaultColor : Colors.grey,
-                      child:const Icon(
-                        Icons.favorite_border,
-                        size: 14,
-                        color: Colors.white,
+                  Row(
+                    children: [
+                      Text(
+                        model.price.toString(),
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          color: defaultColor,
+                          fontFamily: 'Satoshi medium',
+                          // fontWeight: FontWeight.normal,
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      if (model.discount != 0)
+                        Text(
+                          model.oldPrice.toString(),
+                          style: const TextStyle(
+                            fontSize: 11.0,
+                            color: Colors.grey,
+                            decoration: TextDecoration.lineThrough,
+                          ),
+                        ),
+                      const Spacer(),
+                      IconButton(
+                        onPressed: () {
+                          ShopCubit.get(context).changeFavorites(model.id);
+                        },
+                        icon: CircleAvatar(
+                          backgroundColor:
+                              ShopCubit.get(context).favorites![model.id]!
+                                  ? defaultColor
+                                  : Colors.grey,
+                          child: const Icon(
+                            Icons.favorite_border,
+                            size: 14,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
-    ),
-  ),
-);
+      ),
+    );
