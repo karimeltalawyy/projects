@@ -5,6 +5,7 @@ import 'package:test_one/layout/social_app/cubit/states.dart';
 
 import '../../../shared/component/components/components.dart';
 import '../../../shared/styles/icon/icon_broken.dart';
+import '../edit_profile/edit_profile.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -200,7 +201,9 @@ class SettingsScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   OutlinedButton(
                     child: const Icon(IconBroken.edit),
-                    onPressed: () {},
+                    onPressed: () {
+                      navigateTo(context, EditProfileScreen());
+                    },
                   ),
                 ],
               ),

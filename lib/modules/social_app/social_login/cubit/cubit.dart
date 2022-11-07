@@ -18,7 +18,8 @@ class SocialLoginCubit extends Cubit<SocialLoginStates> {
     required String password,
   }) {
     emit(SocialLoginLoadingState());
-    FirebaseAuth.instance.signInWithEmailAndPassword(
+    FirebaseAuth.instance
+    .signInWithEmailAndPassword(
       email: email,
       password: password,
     ).then((value) {
