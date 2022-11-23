@@ -51,7 +51,7 @@ void main() async {
   //   widget = const OnBoardingScreen();
   // }
   if (uId != null) {
-    widget =  SocialLayout();
+    widget =  const SocialLayout();
   } else {
     widget = SocialAppLogin();
   }
@@ -89,7 +89,7 @@ class MyApp extends StatelessWidget {
             ..getUserData(),
         ),
         BlocProvider(
-          create: (context) => SocialCubit()..getUserData(),
+          create: (context) => SocialCubit()..getUserData()..getPosts(),
 
         ),
       ],
@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
             //AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
             darkTheme: darkTheme,
             debugShowCheckedModeBanner: false,
-            home: SocialAppLogin(),
+            home: startWidget,
           );
         },
       ),

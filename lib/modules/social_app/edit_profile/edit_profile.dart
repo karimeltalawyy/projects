@@ -128,6 +128,48 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
+                  if (SocialCubit.get(context).profileImage != null ||
+                      SocialCubit.get(context).coverImage != null)
+                    Row(children: [
+                      if (SocialCubit.get(context).profileImage != null)
+                        Expanded(
+                            child: Column(
+                          children: [
+                            defaultButton(
+                              text: 'Update profile',
+                              function: () {
+                                SocialCubit.get(context).uploadProfileImage(
+                                  name: nameController.text,
+                                  phone: phoneController.text,
+                                  bio: bioController.text,
+                                );
+                              },
+                            ),
+                            if(state is SocialUserUpdateLoadingState)
+                            const LinearProgressIndicator(),
+                          ],
+                        )),
+                      const SizedBox(width: 12),
+                      if (SocialCubit.get(context).coverImage != null)
+                        Expanded(
+                            child: Column(
+                          children: [
+                            defaultButton(
+                                text: 'Update cover', function: () {
+                              SocialCubit.get(context).uploadCoverImage(
+                                name: nameController.text,
+                                phone: phoneController.text,
+                                bio: bioController.text,
+                              );
+                            },),
+                            if(state is SocialUserUpdateLoadingState)
+                            const LinearProgressIndicator(),
+                          ],
+                        )),
+                    ]),
+                  if (SocialCubit.get(context).profileImage != null ||
+                      SocialCubit.get(context).coverImage != null)
+                    const SizedBox(height: 26),
                   defaultFormFeild(
                     controller: nameController,
                     type: TextInputType.text,

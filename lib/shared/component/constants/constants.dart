@@ -15,5 +15,6 @@ void signOut(context) => CacheHelper.removeData(key: 'token').then((value) {
     });
 
 String? token = 'ENqoDRRPVeDYbJzhvGdZ6A6VSZVCCUfsRKX22RnukYqBSUgBp1UjaSozKgE4Sb3JBQfZwh';
-String? uId = 'T7zeCTyHdnf2QwNKDxo73j8klVg2';
+String? uId = '';
 //IrKOGX2ugrWOKSrtVgQZkMndhYIjOh7NpiZqM4U6A2IHDuVq8nnmDBnm0DQDDqE3YlECaj
+//T7zeCTyHdnf2QwNKDxo73j8klVg2

@@ -47,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
                     CircleAvatar(
                       radius: 54,
                       backgroundColor:
-                          Theme.of(context).scaffoldBackgroundColor,
+                      Theme.of(context).scaffoldBackgroundColor,
                       child: CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
@@ -82,9 +82,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
                             ),
                             Text(
                               'Posts',
@@ -92,9 +92,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                  ),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
                         ),
@@ -111,9 +111,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
                             ),
                             Text(
                               'Photos',
@@ -121,9 +121,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                  ),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
                         ),
@@ -140,9 +140,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
                             ),
                             Text(
                               'Followers',
@@ -150,9 +150,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                  ),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
                         ),
@@ -169,9 +169,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodyMedium!
                                   .copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                  ),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                              ),
                             ),
                             Text(
                               'Following',
@@ -179,9 +179,9 @@ class SettingsScreen extends StatelessWidget {
                                   .textTheme
                                   .bodySmall!
                                   .copyWith(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 14,
-                                  ),
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
                         ),
