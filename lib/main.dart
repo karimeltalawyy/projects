@@ -25,6 +25,7 @@ import 'layout/shop_app/shop_app_layout.dart';
 import 'layout/social_app/cubit/cubit.dart';
 import 'modules/shop_app/login/shop_login.dart';
 import 'modules/shop_app/onboarding/onboarding_screen.dart';
+import 'modules/social_app/social_signup/social_signup.dart';
 import 'shared/styles/themes/themes.dart';
 
 void main() async {

@@ -4,7 +4,12 @@ class UserModel {
   final int id;
   final String name;
   final String phone;
-  UserModel({required this.id, required this.name, required this.phone});
+
+  UserModel({
+    required this.id,
+    required this.name,
+    required this.phone,
+  });
 }
 
 class UserScreen extends StatelessWidget {
@@ -18,6 +23,7 @@ class UserScreen extends StatelessWidget {
     UserModel(id: 2, name: 'Ahmed', phone: '01207249082'),
     UserModel(id: 3, name: 'Ali', phone: '01201232134'),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
